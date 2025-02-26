@@ -1,0 +1,44 @@
+name: Release build
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version"
+        required: true
+
+run-name: 'Release build ${{ inputs.version }}'
+
+env:
+  PROJECT_PATH: Telegram.Bot.AspNetCore.csproj
+  CONFIGURATION: Release
+  VERSION: ${{ inputs.version }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write               # For git tag
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build $PROJECT_PATH --no-restore --configuration $CONFIGURATION -p:Version=$VERSION
+    - name: Pack
+      run: dotnet pack $PROJECT_PATH --no-build --configuration $CONFIGURATION -p:Version=$VERSION --output packages
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: packages
+        path: packages/*.nupkg
+    - name: Nuget push
+      run: dotnet nuget push packages/*.nupkg --api-key ${{secrets.NUGETAPIKEY}} --skip-duplicate --source https://api.nuget.org/v3/index.json
+    - name: Git tag
+      run: |
+        git tag v$VERSION
+        git push --tags

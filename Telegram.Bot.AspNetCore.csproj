@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
+    <NoWarn>IDE0130</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <Title>Telegram.Bot support for ASP.NET Core</Title>
+    <Description>Helps using Telegram.Bot with ASP.NET Core</Description>
+    <PackageId>Telegram.Bot.AspNetCore</PackageId>
+    <Authors>Wizou</Authors>
+    <Copyright>Copyright © TelegramBots 2025</Copyright>
+    <PackageIcon>package-icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/TelegramBots/Telegram.Bot.AspNetCore</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/TelegramBots/Telegram.Bot.AspNetCore.git</RepositoryUrl>
+    <PackageTags>Telegram;Bot;Api;AspNetCore;ASP.NET</PackageTags>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
+      <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Telegram.Bot" Version="22.*" />
+  </ItemGroup>
+
+</Project>
